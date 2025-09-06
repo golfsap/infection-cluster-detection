@@ -2,10 +2,6 @@
 
 A FastAPI web application for uploading hospital transfer & microbiology records, detecting possible infection clusters, and visualizing them interactively.
 
-![screenshot](docs/screenshot.png)
-
----
-
 ## Features
 
 - 📂 **File Upload** – Ingest patient transfer and microbiology CSV files.
