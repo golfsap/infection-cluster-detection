@@ -15,16 +15,18 @@ async def list_clusters(request: Request):
         raise HTTPException(status_code=404, detail="No cluster data available")
 
     # Check
-    import pprint
-    pprint.pprint(clusters)
+    # import pprint
+    # pprint.pprint(clusters)
 
     return templates.TemplateResponse("clusters.html", {"request": request, "clusters": clusters["clusters"], "stats": clusters["stats"]})
 
 @router.get("/{infection}/{idx}")
 def cluster_detail(request: Request, infection: str, idx: int):
     clusters = request.app.state.last_clusters
-    # clusters_for = clusters.get("clusters")
-    # if (not clusters_for)
+
+    if not clusters or "clusters" not in clusters or "stats" not in clusters:
+        raise HTTPException(status_code=404, detail="No cluster data available")
+    
     cluster = clusters.get("clusters", {}).get(infection, [])[idx]
     return templates.TemplateResponse("detail.html", {"request": request, "infection": infection, "members": cluster})
 

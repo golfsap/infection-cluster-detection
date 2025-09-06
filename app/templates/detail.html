@@ -1,7 +1,94 @@
-<h2>{{ infection }} Cluster</h2>
-<ul>
-  {% for pid in members %}
-  <li>{{ pid }}</li>
-  {% endfor %}
-</ul>
-<a href="/clusters">Back</a>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cluster {{ members["cluster_id"] }} – {{ infection }}</title>
+    <style>
+      body {
+        font-family: sans-serif;
+        line-height: 1.4;
+      }
+      h1,
+      h2,
+      h3 {
+        margin-top: 1em;
+      }
+      table {
+        border-collapse: collapse;
+        width: 100%;
+        margin-top: 0.5em;
+      }
+      th,
+      td {
+        border: 1px solid #ccc;
+        padding: 4px 8px;
+        text-align: left;
+      }
+      ul {
+        padding-left: 1.2em;
+      }
+      .meta span {
+        display: inline-block;
+        margin-right: 1em;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Cluster {{ members["cluster_id"] }} – Infection: {{ infection }}</h1>
+
+    <section class="meta">
+      <span><strong>Size:</strong> {{ members["size"] }}</span>
+      <span
+        ><strong>Timespan:</strong> {{ members["timespan_days"] }} days</span
+      >
+      <span
+        ><strong>First positive:</strong> {{ members["first_positive"] }}</span
+      >
+      <span
+        ><strong>Last positive:</strong> {{ members["last_positive"] }}</span
+      >
+    </section>
+
+    <h2>Locations</h2>
+    {% if members["locations"] %}
+    <ul>
+      {% for loc in members["locations"] %}
+      <li>{{ loc }}</li>
+      {% endfor %}
+    </ul>
+    {% else %}
+    <p>No locations recorded.</p>
+    {% endif %}
+
+    <h2>Cluster Members</h2>
+    {% if members["members"] %}
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Member</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for m in members["members"] %}
+        <tr>
+          <td>{{ loop.index }}</td>
+          <td>{{ m }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <p>No member records.</p>
+    {% endif %}
+
+    <h2>Contact Edges</h2>
+    <p>{{ members["contact_edges"] }}</p>
+
+    <h2>Contact Events</h2>
+    <p>{{ members["contact_events"] }}</p>
+
+    <p><a href="/clusters/">← Back to all clusters</a></p>
+  </body>
+</html>

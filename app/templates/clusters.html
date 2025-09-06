@@ -25,9 +25,8 @@
         {% for cluster in groups %}
         <li>
           <a href="/clusters/{{ infection }}/{{ loop.index0 }}">
-            Cluster {{ loop.index }} – Size: {{ cluster.size }}, First positive:
-            {{ cluster.first_positive }}, Last positive: {{
-            cluster.last_positive }}
+            Cluster {{ loop.index }} – Size: {{ cluster.size }}, Locations: {{
+            cluster.locations }}
           </a>
         </li>
         {% endfor %}
