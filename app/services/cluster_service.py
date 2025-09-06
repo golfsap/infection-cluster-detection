@@ -2,12 +2,18 @@ import pandas as pd
 import networkx as nx
 from datetime import timedelta
 from typing import Tuple
+from openai import OpenAI
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 # ----------------------------
 # Config
 # ----------------------------
 WINDOW_DAYS = 14 # ±14 days window relative to positive test date
 DATE_FMT = "%Y-%m-%d"
+api_key = os.getenv("OPENAI_API_KEY")
 
 def _read_csv(transfers_path: str, microbiology_path: str) -> Tuple[pd.DataFrame, pd.DataFrame]:
     tf = pd.read_csv(transfers_path, dtype=str)
@@ -175,4 +181,38 @@ def build_ward_summary(clusters_by_infection: dict):
                 ward_summary.setdefault(loc, {}).setdefault(infection, 0)
                 ward_summary[loc][infection] += cluster["size"]
     return ward_summary
-    
+
+def summarize_cluster(cluster: dict) -> str:
+    client = OpenAI(
+        api_key=api_key
+    )
+
+    cluster_info = (
+        f"Cluster data:\n"
+        f"Size: {cluster['size']}\n"
+        f"Locations: {', '.join(cluster['locations'])}\n"
+        f"First positive: {cluster['first_positive']}\n"
+        f"Last positive: {cluster['last_positive']}\n"
+        f"Timespan (days): {cluster['timespan_days']}\n"
+    )
+
+    prompt = (
+        "You are a clinical epidemiologist. Summarize this infection cluster concisely "
+        "and clearly for a hospital report. Include:\n"
+        "- Number of patients\n"
+        "- Locations affected\n"
+        "- Timeframe\n"
+        "- Any possible significance (e.g., spread risk)\n\n"
+        f"{cluster_info}"
+    )
+
+    response = client.chat.completions.create(
+        model="gpt-3.5-turbo",
+        messages=[{"role": "user", "content": prompt}],
+        temperature=0.3,
+        max_tokens=10
+    )
+
+    summary = response.choices[0].message.content.strip()
+    return summary
+

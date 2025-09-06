@@ -2,7 +2,7 @@ from fastapi import APIRouter, Request, HTTPException
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 import json
-from app.services.cluster_service import build_ward_summary
+from app.services.cluster_service import build_ward_summary, summarize_cluster
 
 router = APIRouter(
     prefix='/clusters', tags=["clusters"]
@@ -53,5 +53,8 @@ def cluster_detail(request: Request, infection: str, idx: int):
         raise HTTPException(status_code=404, detail=f"Cluster index {idx} out of range.")
 
     cluster = clusters_state.get("clusters", {}).get(infection, [])[idx]
+    # generate LLM summary
+    # cluster_summary = summarize_cluster(cluster)
+
     return templates.TemplateResponse("detail.html", {"request": request, "infection": infection, "members": cluster})
 
