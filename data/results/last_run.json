@@ -1,0 +1,188 @@
+{
+  "clusters": {
+    "CRE": [
+      {
+        "cluster_id": 1,
+        "infection": "CRE",
+        "size": 11,
+        "members": [
+          "P0013",
+          "P0053",
+          "P0058",
+          "P0072",
+          "P0115",
+          "P0126",
+          "P0141",
+          "P0328",
+          "P0347",
+          "P0380",
+          "P0457"
+        ],
+        "first_positive": "2025-04-05",
+        "last_positive": "2025-04-20",
+        "timespan_days": 15,
+        "locations": [
+          "Ward-2",
+          "Ward-3"
+        ],
+        "contact_edges": 32,
+        "contact_events": 121
+      },
+      {
+        "cluster_id": 2,
+        "infection": "CRE",
+        "size": 4,
+        "members": [
+          "P0015",
+          "P0279",
+          "P0311",
+          "P0444"
+        ],
+        "first_positive": "2025-06-27",
+        "last_positive": "2025-06-30",
+        "timespan_days": 3,
+        "locations": [
+          "Ward-3"
+        ],
+        "contact_edges": 6,
+        "contact_events": 9
+      },
+      {
+        "cluster_id": 3,
+        "infection": "CRE",
+        "size": 8,
+        "members": [
+          "P0023",
+          "P0106",
+          "P0181",
+          "P0252",
+          "P0316",
+          "P0360",
+          "P0449",
+          "P0496"
+        ],
+        "first_positive": "2025-06-10",
+        "last_positive": "2025-06-25",
+        "timespan_days": 15,
+        "locations": [
+          "ICU",
+          "Ward-6"
+        ],
+        "contact_edges": 11,
+        "contact_events": 58
+      },
+      {
+        "cluster_id": 4,
+        "infection": "CRE",
+        "size": 11,
+        "members": [
+          "P0039",
+          "P0104",
+          "P0204",
+          "P0212",
+          "P0220",
+          "P0241",
+          "P0261",
+          "P0331",
+          "P0366",
+          "P0405",
+          "P0447"
+        ],
+        "first_positive": "2025-04-30",
+        "last_positive": "2025-05-17",
+        "timespan_days": 17,
+        "locations": [
+          "Ward-5"
+        ],
+        "contact_edges": 39,
+        "contact_events": 214
+      },
+      {
+        "cluster_id": 5,
+        "infection": "CRE",
+        "size": 10,
+        "members": [
+          "P0049",
+          "P0073",
+          "P0095",
+          "P0109",
+          "P0162",
+          "P0178",
+          "P0226",
+          "P0407",
+          "P0427",
+          "P0493"
+        ],
+        "first_positive": "2025-05-25",
+        "last_positive": "2025-06-07",
+        "timespan_days": 13,
+        "locations": [
+          "Ward-7"
+        ],
+        "contact_edges": 34,
+        "contact_events": 218
+      }
+    ],
+    "MRSA": [
+      {
+        "cluster_id": 6,
+        "infection": "MRSA",
+        "size": 2,
+        "members": [
+          "P0121",
+          "P0451"
+        ],
+        "first_positive": "2025-06-16",
+        "last_positive": "2025-06-18",
+        "timespan_days": 2,
+        "locations": [
+          "ICU"
+        ],
+        "contact_edges": 1,
+        "contact_events": 4
+      },
+      {
+        "cluster_id": 7,
+        "infection": "MRSA",
+        "size": 2,
+        "members": [
+          "P0290",
+          "P0488"
+        ],
+        "first_positive": "2025-04-25",
+        "last_positive": "2025-04-27",
+        "timespan_days": 2,
+        "locations": [
+          "Ward-3"
+        ],
+        "contact_edges": 1,
+        "contact_events": 2
+      },
+      {
+        "cluster_id": 8,
+        "infection": "MRSA",
+        "size": 2,
+        "members": [
+          "P0339",
+          "P0423"
+        ],
+        "first_positive": "2025-05-08",
+        "last_positive": "2025-05-08",
+        "timespan_days": 0,
+        "locations": [
+          "ICU"
+        ],
+        "contact_edges": 1,
+        "contact_events": 2
+      }
+    ]
+  },
+  "stats": {
+    "infections": [
+      "CRE",
+      "MRSA"
+    ],
+    "total_clusters": 8,
+    "patients_positive": 75
+  }
+}

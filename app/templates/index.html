@@ -4,6 +4,33 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Infection Cluster Upload</title>
+    <style>
+      body {
+        font-family: sans-serif;
+        max-width: 600px;
+        line-height: 1.4;
+        margin: 1rem;
+      }
+      h1 {
+        margin-top: 1em;
+      }
+      form {
+        display: flex;
+        flex-direction: column;
+        gap: 0.7rem;
+      }
+      input {
+        display: block;
+        text-decoration: none;
+      }
+      a.sample {
+        display: inline-block;
+        margin-top: 1rem;
+      }
+      a:hover {
+        text-decoration: none;
+      }
+    </style>
   </head>
   <body>
     <h1>Upload Hospital CSV Files</h1>
@@ -16,5 +43,8 @@
 
       <button type="submit">Detect Clusters</button>
     </form>
+
+    <p><a href="?use_sample=true" class="sample">Use Sample Dataset</a></p>
+    <p><a href="/clusters">View Previous Dataset</a></p>
   </body>
 </html>

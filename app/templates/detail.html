@@ -7,7 +7,9 @@
     <style>
       body {
         font-family: sans-serif;
+        max-width: 1000px;
         line-height: 1.4;
+        margin: 1rem;
       }
       h1,
       h2,
@@ -31,6 +33,9 @@
       .meta span {
         display: inline-block;
         margin-right: 1em;
+      }
+      a:hover {
+        text-decoration: none;
       }
     </style>
   </head>
@@ -67,7 +72,7 @@
       <thead>
         <tr>
           <th>#</th>
-          <th>Member</th>
+          <th>Member (patient_id)</th>
         </tr>
       </thead>
       <tbody>
@@ -89,6 +94,6 @@
     <h2>Contact Events</h2>
     <p>{{ members["contact_events"] }}</p>
 
-    <p><a href="/clusters/">← Back to all clusters</a></p>
+    <p><a href="/clusters/">Back to all clusters</a></p>
   </body>
 </html>
