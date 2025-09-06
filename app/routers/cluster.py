@@ -1,7 +1,8 @@
 from fastapi import APIRouter, Request, HTTPException
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
-# import pandas as pd
+import json
+from app.services.cluster_service import build_ward_summary
 
 router = APIRouter(
     prefix='/clusters', tags=["clusters"]
@@ -17,9 +18,23 @@ async def list_clusters(request: Request):
             "no_data.html",
             {"request": request, "message": "No cluster data available."}, status_code=200
         )
-        # raise HTTPException(status_code=404, detail="No cluster data available")
+    
+    ward_summary = build_ward_summary(clusters_state["clusters"])
+    infections = list({i for w in ward_summary.values() for i in w.keys()})
 
-    return templates.TemplateResponse("clusters.html", {"request": request, "clusters": clusters_state["clusters"], "stats": clusters_state["stats"]})
+    chart_data = {
+        "wards": list(ward_summary.keys()),
+        "infections": infections,
+        "counts": ward_summary
+    }
+        
+    return templates.TemplateResponse("clusters.html", {
+            "request": request,
+            "clusters": clusters_state["clusters"],
+            "stats": clusters_state["stats"],
+            "chart_data": json.dumps(chart_data)
+        }
+    )
 
 @router.get("/{infection}/{idx}", response_class=HTMLResponse)
 def cluster_detail(request: Request, infection: str, idx: int):

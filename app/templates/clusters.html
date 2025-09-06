@@ -23,6 +23,7 @@
         text-decoration: none;
       }
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   </head>
   <body>
     <h1>Detected Clusters</h1>
@@ -34,6 +35,10 @@
         <li>Positive patients: {{ stats.patients_positive }}</li>
         <li>Infections: {{ stats.infections | join(', ') }}</li>
       </ul>
+
+      <div class="chart-container">
+        <canvas id="wardChart"></canvas>
+      </div>
     </section>
 
     {% for infection in stats.infections %} {% set groups = clusters[infection]
@@ -56,5 +61,50 @@
     {% endfor %}
 
     <p><a href="/">Back to home</a></p>
+
+    <!-- Chart.js Script -->
+    <script>
+      const chartData = {{ chart_data | safe }};
+      const wards = chartData.wards;
+      const infections = chartData.infections;
+      const counts = chartData.counts;
+
+      const datasets = infections.map((inf, idx) => {
+        const values = wards.map((ward) => counts[ward][inf] || 0);
+        const color = `hsl(${(idx * 60) % 360}, 65%, 55%)`;
+        return {
+          label: inf,
+          data: values,
+          backgroundColor: color,
+        };
+      });
+
+      const ctx = document.getElementById("wardChart").getContext("2d");
+      new Chart(ctx, {
+        type: "bar",
+        data: {
+          labels: wards,
+          datasets: datasets,
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: { position: "top" },
+            title: {
+              display: true,
+              text: "Infections per Ward",
+            },
+          },
+          scales: {
+            x: { stacked: true },
+            y: {
+              stacked: true,
+              beginAtZero: true,
+              title: { display: true, text: "Cluster Size" },
+            },
+          },
+        },
+      });
+    </script>
   </body>
 </html>

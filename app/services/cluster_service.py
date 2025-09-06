@@ -167,12 +167,12 @@ def detect_clusters(transfers_path: str, microbiology_path: str):
         }
     }
 
-    # infections = sorted({c['infection'] for c in clusters_all})
-    # return {
-    #     'clusters': clusters_all,
-    #     'stats': {
-    #         'infections': infections,
-    #         'total_clusters': len(clusters_all),
-    #         'patients_positive': int(pos_idx['patient_id'].nunique())
-    #     }
-    # }
+def build_ward_summary(clusters_by_infection: dict):
+    ward_summary = {}
+    for infection, groups in clusters_by_infection.items():
+        for cluster in groups:
+            for loc in cluster["locations"]:
+                ward_summary.setdefault(loc, {}).setdefault(infection, 0)
+                ward_summary[loc][infection] += cluster["size"]
+    return ward_summary
+    
