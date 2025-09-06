@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Clusters Overview</title>
+  </head>
+  <body>
+    <h1>Detected Clusters</h1>
+
+    <section>
+      <h2>Summary</h2>
+      <ul>
+        <li>Total clusters: {{ stats.total_clusters }}</li>
+        <li>Positive patients: {{ stats.patients_positive }}</li>
+        <li>Infections: {{ stats.infections | join(', ') }}</li>
+      </ul>
+    </section>
+
+    {% for infection in stats.infections %} {% set groups = clusters[infection]
+    %}
+    <section>
+      <h2>{{ infection }} ({{ groups|length }} clusters)</h2>
+      <ul>
+        {% for cluster in groups %}
+        <li>
+          <a href="/clusters/{{ infection }}/{{ loop.index0 }}">
+            Cluster {{ loop.index }} – Size: {{ cluster.size }}, First positive:
+            {{ cluster.first_positive }}, Last positive: {{
+            cluster.last_positive }}
+          </a>
+        </li>
+        {% endfor %}
+      </ul>
+    </section>
+    {% endfor %}
+  </body>
+</html>

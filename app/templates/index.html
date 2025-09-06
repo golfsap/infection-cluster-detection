@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Infection Cluster Upload</title>
+  </head>
+  <body>
+    <h1>Upload Hospital CSV Files</h1>
+    <form action="/ingest" enctype="multipart/form-data" method="post">
+      <label>Transfers CSV:</label>
+      <input type="file" name="transfers_file" required />
+
+      <label>Microbiology CSV:</label>
+      <input type="file" name="microbiology_file" required />
+
+      <button type="submit">Detect Clusters</button>
+    </form>
+  </body>
+</html>
