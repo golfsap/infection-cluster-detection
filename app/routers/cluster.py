@@ -18,7 +18,9 @@ async def list_clusters(request: Request):
             "no_data.html",
             {"request": request, "message": "No cluster data available."}, status_code=200
         )
-    
+    # import pprint
+    # pprint.pprint(clusters_state)
+
     ward_summary = build_ward_summary(clusters_state["clusters"])
     infections = list({i for w in ward_summary.values() for i in w.keys()})
 

@@ -137,6 +137,16 @@ def detect_clusters(transfers_path: str, microbiology_path: str):
             first_pos = pos_sub['positive_date'].min()
             last_pos = pos_sub['positive_date'].max()
             timespan_days = int((last_pos - first_pos).days)
+
+            # Extract edges with contact events
+            edges_list = []
+            for u, v, data in sub.edges(data=True):
+                edges_list.append({
+                    "from": u,
+                    "to": v,
+                    "contact_events": data.get('contact_events', 0)
+                })
+                
             contact_edges = sub.number_of_edges()
             contact_events = int(sum(d.get('contact_events', 0) for _, _, d in sub.edges(data=True)))
 
@@ -157,6 +167,7 @@ def detect_clusters(transfers_path: str, microbiology_path: str):
             'locations': sorted(list(locs)),
             'contact_edges': contact_edges,
             'contact_events': contact_events,
+            'edges_list': edges_list
             })
             cluster_counter += 1
     

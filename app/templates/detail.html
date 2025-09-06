@@ -4,6 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Cluster {{ members["cluster_id"] }} – {{ infection }}</title>
+    <script
+      type="text/javascript"
+      src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"
+    ></script>
     <style>
       body {
         font-family: sans-serif;
@@ -94,6 +98,45 @@
     <h2>Contact Events</h2>
     <p>{{ members["contact_events"] }} observed interactions</p>
 
+    <h2>Contact Network</h2>
+    <div
+      id="network"
+      style="
+        border: 1px solid #ccc;
+        width: 100%;
+        height: 400px;
+        margin-top: 1rem;
+      "
+    ></div>
+
     <p><a href="/clusters/">Back to all clusters</a></p>
+    <script type="text/javascript">
+        // Convert members into Vis.js nodes
+        const nodes = new vis.DataSet(
+          {{ members.members | tojson }}
+            .map((id) => ({ id: id, label: id, title: id }))
+        );
+
+        // Edges: use edges_list with contact_events for tooltips
+      const edges = new vis.DataSet(
+        {{ members.edges_list | tojson }}
+          .map(e => ({
+            from: e.from,
+            to: e.to,
+            label: e.contact_events.toString(),
+            title: `${e.contact_events} contact events`
+          }))
+      );
+
+      const container = document.getElementById("network");
+      const data = { nodes, edges };
+      const options = {
+        nodes: { shape: "dot", size: 17 },
+        edges: { arrows: { enabled: false }, font: { align: "top" }, smooth: false },
+        layout: { improvedLayout: true },
+        physics: { stabilization: true }
+      };
+        const network = new vis.Network(container, data, options);
+    </script>
   </body>
 </html>
