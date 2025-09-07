@@ -54,9 +54,10 @@ def cluster_detail(request: Request, infection: str, idx: int):
     if idx < 0 or idx >= len(groups):
         raise HTTPException(status_code=404, detail=f"Cluster index {idx} out of range.")
 
-    cluster = clusters_state.get("clusters", {}).get(infection, [])[idx]
+    cluster = groups[idx]
+    
     # generate LLM summary
-    # cluster_summary = summarize_cluster(cluster)
+    cluster_summary = summarize_cluster(cluster)
 
-    return templates.TemplateResponse("detail.html", {"request": request, "infection": infection, "members": cluster})
+    return templates.TemplateResponse("detail.html", {"request": request, "infection": infection, "cluster": cluster, "summary": cluster_summary})
 

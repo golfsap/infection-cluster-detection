@@ -208,20 +208,24 @@ def summarize_cluster(cluster: dict) -> str:
     )
 
     prompt = (
-        "You are a clinical epidemiologist. Summarize this infection cluster concisely "
-        "and clearly for a hospital report. Include:\n"
-        "- Number of patients\n"
-        "- Locations affected\n"
-        "- Timeframe\n"
-        "- Any possible significance (e.g., spread risk)\n\n"
-        f"{cluster_info}"
+        f"""
+        For each cluster, produce a short, factual, plain-language summary
+        for clinicians. Include:
+        - number of patients
+        - wards involved
+        - timeframe
+        - one-sentence comment on spread risk or control priority.
+        Keep ≤120 words. Vary phrasing naturally while staying factual.
+
+        {cluster_info}
+        """
     )
 
     response = client.chat.completions.create(
-        model="gpt-3.5-turbo",
+        model="gpt-4o-mini",
         messages=[{"role": "user", "content": prompt}],
         temperature=0.3,
-        max_tokens=10
+        max_tokens=150
     )
 
     summary = response.choices[0].message.content.strip()

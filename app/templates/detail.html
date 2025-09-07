@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Cluster {{ members["cluster_id"] }} – {{ infection }}</title>
+    <title>Cluster {{ cluster["cluster_id"] }} – {{ infection }}</title>
     <script
       type="text/javascript"
       src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"
@@ -44,25 +44,26 @@
     </style>
   </head>
   <body>
-    <h1>Cluster {{ members["cluster_id"] }} – Infection: {{ infection }}</h1>
+    <h1>Cluster {{ cluster["cluster_id"] }} – Infection: {{ infection }}</h1>
 
     <section class="meta">
-      <span><strong>Size:</strong> {{ members["size"] }}</span>
+      <span><strong>Size:</strong> {{ cluster["size"] }}</span>
       <span
-        ><strong>Timespan:</strong> {{ members["timespan_days"] }} days</span
+        ><strong>Timespan:</strong> {{ cluster["timespan_days"] }} days</span
       >
       <span
-        ><strong>First positive:</strong> {{ members["first_positive"] }}</span
+        ><strong>First positive:</strong> {{ cluster["first_positive"] }}</span
       >
       <span
-        ><strong>Last positive:</strong> {{ members["last_positive"] }}</span
+        ><strong>Last positive:</strong> {{ cluster["last_positive"] }}</span
       >
+      <p class="llm-summary">{{ summary }}</p>
     </section>
 
     <h2>Locations</h2>
-    {% if members["locations"] %}
+    {% if cluster["locations"] %}
     <ul>
-      {% for loc in members["locations"] %}
+      {% for loc in cluster["locations"] %}
       <li>{{ loc }}</li>
       {% endfor %}
     </ul>
@@ -71,7 +72,7 @@
     {% endif %}
 
     <h2>Cluster Members</h2>
-    {% if members["members"] %}
+    {% if cluster["members"] %}
     <table>
       <thead>
         <tr>
@@ -80,7 +81,7 @@
         </tr>
       </thead>
       <tbody>
-        {% for m in members["members"] %}
+        {% for m in cluster["members"] %}
         <tr>
           <td>{{ loop.index }}</td>
           <td>{{ m }}</td>
@@ -93,10 +94,10 @@
     {% endif %}
 
     <h2>Contact Edges</h2>
-    <p>{{ members["contact_edges"] }} potential transmission links</p>
+    <p>{{ cluster["contact_edges"] }} potential transmission links</p>
 
     <h2>Contact Events</h2>
-    <p>{{ members["contact_events"] }} observed interactions</p>
+    <p>{{ cluster["contact_events"] }} observed interactions</p>
 
     <h2>Contact Network</h2>
     <div
@@ -113,13 +114,13 @@
     <script type="text/javascript">
         // Convert members into Vis.js nodes
         const nodes = new vis.DataSet(
-          {{ members.members | tojson }}
+          {{ cluster.members | tojson }}
             .map((id) => ({ id: id, label: id, title: id }))
         );
 
         // Edges: use edges_list with contact_events for tooltips
       const edges = new vis.DataSet(
-        {{ members.edges_list | tojson }}
+        {{ cluster.edges_list | tojson }}
           .map(e => ({
             from: e.from,
             to: e.to,
